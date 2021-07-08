@@ -21,7 +21,7 @@ function isValidPassword(password){
 }
 
 function validateInput(email, password){
-    if (!isValidEmail(email) && isValidPassword(password)){
+    if (!isValidEmail(email) || !isValidPassword(password)){
         throw new Error('Invalid input!');
     }
 }
