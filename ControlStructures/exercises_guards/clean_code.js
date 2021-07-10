@@ -36,8 +36,8 @@ function main() {
 }
 
 function processTransactions(transactions) {
-    if (!transactions || transactions.length === 0) {
-        console.log('No transactions provided!');
+    if (isEmpty(transactions)) {
+        showErrorMessage('No transactions provided!');
         return;
     }
     for (const transaction of transactions) {
@@ -70,6 +70,14 @@ function processTransactions(transactions) {
         }
     }
 
+}
+
+function isEmpty(transactions) {
+    return !transactions || transactions.length === 0;
+}
+
+function showErrorMessage(message){
+    console.log(message);
 }
 
 function processCreditCardPayment(transaction) {
