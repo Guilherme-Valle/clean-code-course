@@ -42,12 +42,12 @@ function processTransactions(transactions) {
     }
     for (const transaction of transactions) {
         if (transaction.type !== 'PAYMENT' && transaction.type !== 'REFUND') {
-            console.log('Invalid transaction type!', transaction);
+            showErrorMessage('Invalid transaction type!')
             continue;
         }
 
         if (transaction.status !== 'OPEN') {
-            console.log('Invalid transaction type!', transaction);
+            showErrorMessage('Invalid transaction type!')
             continue;
         }
 
