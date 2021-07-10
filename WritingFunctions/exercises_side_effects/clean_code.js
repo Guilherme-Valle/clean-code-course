@@ -3,7 +3,7 @@ function initApp(){
     if (!success){
         showErrorMessage('Could not connect do database!'); // console.log substituído por causa do nível de abstração
     }
-    // ..
+    // ...
 }
 
 function connectDatabase() {
@@ -24,6 +24,8 @@ function connectDatabase() {
       if (!isValid(email, password)){
           showErrorMessage('Invalid input!');
       }
+
+      // ...
   }
 
 
