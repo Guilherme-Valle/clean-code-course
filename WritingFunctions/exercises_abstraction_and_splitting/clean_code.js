@@ -1,3 +1,14 @@
+class User{
+    constructor(email, password){
+        this.email = email;
+        this.password = password;
+    }
+
+    save(){
+        database.insert(this);
+    }
+}
+
 function handleCreateUserRequest(request){
     try {
         createUser(request.user);
@@ -31,5 +42,7 @@ function showErrorMessage(error){
 }
 
 function saveUser(user){
-    database.insert(user);
+    const newUser = new User(user.email, user.password);
+    
+    newUser.save();
 }
