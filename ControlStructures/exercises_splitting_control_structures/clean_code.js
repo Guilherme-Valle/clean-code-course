@@ -47,41 +47,83 @@ function processTransactions(transactions) {
 }
 
 function processTransaction(transaction) {
-    if (transaction.type !== 'PAYMENT' && transaction.type !== 'REFUND') {
-        showErrorMessage('Invalid transaction type!');
+    if (!isPayment(transaction) && !isRefund(transaction)) {
+        showErrorMessage('Invalid transaction type!', transaction);
         return;
     }
 
-    if (transaction.status !== 'OPEN') {
+    if (!isOpen(transaction)) {
         showErrorMessage('Invalid transaction status!');
         return;
     }
-    
-    if (transaction.type === 'PAYMENT') {
-        if (transaction.method === 'CREDIT_CARD') {
-            processCreditCardPayment(transaction);
-        } else if (transaction.method === 'PAYPAL') {
-            processPayPalPayment(transaction);
-        } else if (transaction.method === 'PLAN') {
-            processPlanPayment(transaction);
-        }
-    } else if (transaction.type === 'REFUND') {
-        if (transaction.method === 'CREDIT_CARD') {
-            processCreditCardRefund(transaction);
-        } else if (transaction.method === 'PAYPAL') {
-            processPayPalRefund(transaction);
-        } else if (transaction.method === 'PLAN') {
-            processPlanRefund(transaction);
-        }
+
+    if (usesCreditCard(transaction)) {
+        processCreditCardTransaction(transaction);
+    } else if (usesPayPal(transaction)) {
+        processPayPalTransaction(transaction);
+    } else if (usesPlan(transaction)) {
+        processPlanTransaction(transaction);
     }
+
+}
+
+function processCreditCardTransaction(transaction){
+    if (isPayment(transaction)){
+        processCreditCardPayment(transaction);
+    } else if (isRefund(transaction)){
+        processCreditCardRefund(transaction);
+    }
+}
+
+function processPayPalTransaction(transaction){
+    if (isPayment(transaction)){
+        processPayPalPayment(transaction);
+    } else if (isRefund(transaction)){
+        processPayPalRefund(transaction);
+    }
+}
+
+function processPlanTransaction(transaction){
+    if (isPayment(transaction)){
+        processPlanPayment(transaction);
+    } else if (isRefund(transaction)){
+        processPlanRefund(transaction);
+    }
+}
+
+function isOpen(transaction) {
+    return transaction.status === 'OPEN';
+}
+
+function isPayment(transaction) {
+    return transaction.type === 'PAYMENT';
+}
+
+function isRefund(transaction) {
+    return transaction.type === 'REFUND';
+}
+
+function usesCreditCard(transaction) {
+    return transaction.method === 'CREDIT_CARD';
+}
+
+function usesPayPal(transaction) {
+    return transaction.method === 'PAYPAL';
+}
+
+function usesPlan(transaction) {
+    return transaction.method === 'PLAN';
 }
 
 function isEmpty(transactions) {
     return !transactions || transactions.length === 0;
 }
 
-function showErrorMessage(message) {
+function showErrorMessage(message, item) {
     console.log(message);
+    if (item) {
+        console.log(item);
+    }
 }
 
 function processCreditCardPayment(transaction) {
