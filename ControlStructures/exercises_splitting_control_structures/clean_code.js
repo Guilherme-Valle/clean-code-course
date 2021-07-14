@@ -42,7 +42,6 @@ function main() {
 function processTransactions(transactions) {
     if (isEmpty(transactions)) {
         const error = new Error('No transactions provided!')
-        error.code = 1;
         throw error;
     }
     for (const transaction of transactions) {
@@ -54,13 +53,11 @@ function processTransactions(transactions) {
 function processTransaction(transaction) {
     if (!isPayment(transaction) && !isRefund(transaction)) {
         const error = new Error('Invalid transaction type!')
-        error.code = 1;
         throw error;
     }
 
     if (!isOpen(transaction)) {
         const error = new Error('Invalid transaction status!')
-        error.code = 1;
         throw error;
     }
 
