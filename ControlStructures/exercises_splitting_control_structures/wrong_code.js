@@ -47,7 +47,7 @@ function processTransactions(transactions) {
         }
 
         if (transaction.status !== 'OPEN') {
-            showErrorMessage('Invalid transaction status!');
+            showErrorMessage('Invalid transaction type!');
             continue;
         }
 

@@ -32,13 +32,18 @@ function main() {
         },
     ];
 
-    processTransactions(transactions);
+    try {
+        processTransactions(transactions);
+    } catch (error) {
+        showErrorMessage(error.message);
+    }
 }
 
 function processTransactions(transactions) {
     if (isEmpty(transactions)) {
-        showErrorMessage('No transactions provided!');
-        return;
+        const error = new Error('No transactions provided!')
+        error.code = 1;
+        throw error;
     }
     for (const transaction of transactions) {
         processTransaction(transaction);
@@ -48,13 +53,15 @@ function processTransactions(transactions) {
 
 function processTransaction(transaction) {
     if (!isPayment(transaction) && !isRefund(transaction)) {
-        showErrorMessage('Invalid transaction type!', transaction);
-        return;
+        const error = new Error('Invalid transaction type!')
+        error.code = 1;
+        throw error;
     }
 
     if (!isOpen(transaction)) {
-        showErrorMessage('Invalid transaction status!');
-        return;
+        const error = new Error('Invalid transaction status!')
+        error.code = 1;
+        throw error;
     }
 
     if (usesCreditCard(transaction)) {
@@ -67,26 +74,26 @@ function processTransaction(transaction) {
 
 }
 
-function processCreditCardTransaction(transaction){
-    if (isPayment(transaction)){
+function processCreditCardTransaction(transaction) {
+    if (isPayment(transaction)) {
         processCreditCardPayment(transaction);
-    } else if (isRefund(transaction)){
+    } else if (isRefund(transaction)) {
         processCreditCardRefund(transaction);
     }
 }
 
-function processPayPalTransaction(transaction){
-    if (isPayment(transaction)){
+function processPayPalTransaction(transaction) {
+    if (isPayment(transaction)) {
         processPayPalPayment(transaction);
-    } else if (isRefund(transaction)){
+    } else if (isRefund(transaction)) {
         processPayPalRefund(transaction);
     }
 }
 
-function processPlanTransaction(transaction){
-    if (isPayment(transaction)){
+function processPlanTransaction(transaction) {
+    if (isPayment(transaction)) {
         processPlanPayment(transaction);
-    } else if (isRefund(transaction)){
+    } else if (isRefund(transaction)) {
         processPlanRefund(transaction);
     }
 }
