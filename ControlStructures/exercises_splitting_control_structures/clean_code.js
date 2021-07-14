@@ -57,6 +57,7 @@ function validateTransactions(transactions) {
 function processTransaction(transaction) {
     try {
         validateTransaction(transaction);
+        
         processByMethod(transaction);
     } catch (error) {
         showErrorMessage(error.message, error.item);
